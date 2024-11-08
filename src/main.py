@@ -1,3 +1,4 @@
+from argparse import ArgumentParser, Namespace
 from typing import List
 
 import arcade
@@ -13,6 +14,10 @@ class PicPinWindow(arcade.Window):
 
     def __init__(self, config: Config) -> None:
         super().__init__(config.SCREEN_WIDTH, config.SCREEN_HEIGHT, config.SCREEN_TITLE)
+
+        if config.map_path:
+            self.map_texture = arcade.load_texture(config.map_path)
+
 
         self.app_config = config
 
@@ -45,6 +50,9 @@ class PicPinWindow(arcade.Window):
         """Render the screen"""
         # Clear the screen
         self.clear()
+
+        if self.map_texture:
+            arcade.draw_lrwh_rectangle_textured(0, 0, self.app_config.SCREEN_WIDTH, self.app_config.SCREEN_HEIGHT, self.map_texture)
 
         # Draw mats
         self.mat_list.draw()
@@ -92,9 +100,19 @@ class PicPinWindow(arcade.Window):
             sprite.center_y += dy
 
 
+def parse_cmd_line_args() -> Namespace:
+    parser = ArgumentParser(
+        prog="Pic Pinner",
+        description="Load a picture and pin counters to parts of it...",
+        )
+    parser.add_argument("image", required=True)
+    return parser.parse_args()
+
+
 def main() -> None:
     """Entry into program"""
-    config = Config()
+    args = parse_cmd_line_args()
+    config = Config(args)
     window = PicPinWindow(config)
     window.setup()
     arcade.run()

@@ -1,3 +1,11 @@
+from argparse import Namespace
+from typing import Protocol
+
+
+class CliArgs(Protocol):
+    image: str
+
+
 class Config:
     SCREEN_WIDTH = 1024
     SCREEN_HEIGHT = 768
@@ -31,3 +39,7 @@ class Config:
 
     # How far apart each pile goes
     X_SPACING = MAT_WIDTH + MAT_WIDTH * HORIZONTAL_MARGIN_PERCENT
+
+    def __init__(self, args: CliArgs) -> None:
+        self.map_path = args.image
+        print(self.map_path)
