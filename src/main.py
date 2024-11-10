@@ -13,7 +13,7 @@ class PicPinWindow(arcade.Window):
     """Main application class"""
 
     def __init__(self, config: Config) -> None:
-        super().__init__(config.SCREEN_WIDTH, config.SCREEN_HEIGHT, config.SCREEN_TITLE)
+        super().__init__(config.SCREEN_WIDTH, config.SCREEN_HEIGHT, config.SCREEN_TITLE, resizable=True)
 
         if config.map_path:
             self.map_texture = arcade.load_texture(config.map_path)
@@ -52,7 +52,8 @@ class PicPinWindow(arcade.Window):
         self.clear()
 
         if self.map_texture:
-            arcade.draw_lrwh_rectangle_textured(0, 0, self.app_config.SCREEN_WIDTH, self.app_config.SCREEN_HEIGHT, self.map_texture)
+            width, hieght = self.get_size()
+            arcade.draw_lrwh_rectangle_textured(0, 0, width, hieght, self.map_texture)
 
         # Draw mats
         self.mat_list.draw()
@@ -105,7 +106,7 @@ def parse_cmd_line_args() -> Namespace:
         prog="Pic Pinner",
         description="Load a picture and pin counters to parts of it...",
         )
-    parser.add_argument("image", required=True)
+    parser.add_argument("image")
     return parser.parse_args()
 
 

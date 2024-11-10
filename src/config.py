@@ -12,7 +12,7 @@ class Config:
     SCREEN_TITLE = "PicPin - Dungeon Tool"
 
     # Counters
-    COUNTER_SCALE = 0.6
+    COUNTER_SCALE = 0.2
     COUNTER_HEIGHT = 140 * COUNTER_SCALE
     COUNTER_WIDTH = 140 * COUNTER_SCALE
 
